@@ -10,4 +10,5 @@ public class C12599Application {
 		SpringApplication.run(C12599Application.class, args);
 	}
 
+
 }
