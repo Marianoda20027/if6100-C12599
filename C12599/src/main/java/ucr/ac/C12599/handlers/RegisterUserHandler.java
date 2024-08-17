@@ -7,7 +7,7 @@ public interface RegisterUserHandler {
         final record Success (String message) implements Result {}
         final record InvalidData(String... fields) implements Result {}
     }
-        void RegisterUser(Command command);     //CQRS
+        void RegisterUser(Command command);     //CQRS new Branch
 
 
 
