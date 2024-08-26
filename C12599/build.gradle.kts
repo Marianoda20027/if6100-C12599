@@ -18,8 +18,10 @@ repositories {
 }
 
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	runtimeOnly("com.h2database:h2")//para generar base de datos
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
