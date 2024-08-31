@@ -1,10 +1,10 @@
 package ucr.ac.C12599.JPA.repositories;
 
-package ucr.ac.lab1.jpa.repositories;
+package ucr.ac.C12599.jpa.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ucr.ac.lab1.jpa.entities.UserEntity;
+import ucr.ac.C12599.jpa.entities.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
