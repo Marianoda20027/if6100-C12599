@@ -2,9 +2,9 @@ package ucr.ac.C12599.handlers.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ucr.ac.lab1.handlers.RegisterUserHandler;
-import ucr.ac.lab1.jpa.entities.UserEntity;
-import ucr.ac.lab1.jpa.repositories.UserRepository;
+import ucr.ac.C12599.handlers.RegisterUserHandler;
+import ucr.ac.C12599.jpa.entities.UserEntity;
+import ucr.ac.C12599.jpa.repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
