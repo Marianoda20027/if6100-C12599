@@ -23,7 +23,8 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
     "id": "id_de_sala_generado"
   }
   ```
-- **Imagen de Prueba:** [Ver imagen](/images/Create-Room.png)
+- **Imagen de Prueba:**
+  ![Crear Sala](images/Create-Room.png)
 
 ### 2. Registrar Usuario en una Sala Existente
 
@@ -44,7 +45,8 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
     "users": ["UsuarioTest", "UsuarioNuevo"]
   }
   ```
-- **Imagen de Prueba:** [Ver imagen](/images/Join-Room.png)
+- **Imagen de Prueba:**
+  ![Registrar Usuario](images/Join-Room.png)
 
 ### 3. Enviar Mensaje a la Sala
 
@@ -66,7 +68,8 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
     "message": "Hola a todos!"
   }
   ```
-- **Imagen de Prueba:** [Ver imagen](/images/Message-Room.png)
+- **Imagen de Prueba:**
+  ![Enviar Mensaje](images/Message-Room.png)
 
 ### 4. Leer Todos los Mensajes en Orden Cronológico
 
@@ -97,10 +100,13 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
     ]
   }
   ```
-- **Imagen de Prueba:** [Ver imagen](images/ReadMessage-Room.png)
-
+- **Imagen de Prueba:**
+  ![Leer Mensajes](images/ReadMessage-Room.png)
 
 ## Entrega
 
 El directorio `images` incluye:
 - Capturas de pantalla de las pruebas realizadas en Postman para cada endpoint.
+```
+
+Este formato asegura que las imágenes de las pruebas se muestren directamente en el README, proporcionando una vista clara y accesible para cualquier lector.
