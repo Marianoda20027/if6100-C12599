@@ -1,7 +1,9 @@
 package ucr.ac.C12599.room.jpa.entities;
 
 import jakarta.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "ROOM_C12599")
@@ -17,7 +19,10 @@ public class RoomEntity {
     @Column(nullable = false)
     private String name;
 
-    // Getters y Setters
+    // Relación OneToMany: Un room puede tener muchos usuarios
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserEntity> users = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -40,6 +45,14 @@ public class RoomEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<UserEntity> users) {
+        this.users = users;
     }
 
     @Override

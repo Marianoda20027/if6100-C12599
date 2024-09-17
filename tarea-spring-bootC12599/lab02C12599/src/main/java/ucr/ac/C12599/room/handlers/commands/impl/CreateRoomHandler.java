@@ -2,11 +2,13 @@ package ucr.ac.C12599.room.handlers.commands.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ucr.ac.C12599.room.api.exceptions.ValidationRoom;
 import ucr.ac.C12599.room.handlers.commands.ICreateRoomHandler;
 import ucr.ac.C12599.room.jpa.entities.RoomEntity;
 import ucr.ac.C12599.room.jpa.entities.UserEntity;
 import ucr.ac.C12599.room.jpa.repositories.RoomRepository;
 import ucr.ac.C12599.room.jpa.repositories.UserRepository;
+
 
 import java.util.UUID;
 
@@ -24,8 +26,8 @@ public class CreateRoomHandler implements ICreateRoomHandler {
 
     @Override
     public String handle(String name, String createdBy) {
-        if (name == null || name.isEmpty() || createdBy == null || createdBy.isEmpty()) {
-            return null;
+        if (!ValidationRoom.isValidRoomData(name, createdBy)) {
+            return null; // Invalid room data
         }
 
         String identifier = UUID.randomUUID().toString();

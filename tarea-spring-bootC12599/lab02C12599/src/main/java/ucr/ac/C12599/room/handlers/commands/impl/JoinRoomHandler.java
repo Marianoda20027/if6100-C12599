@@ -2,13 +2,12 @@ package ucr.ac.C12599.room.handlers.commands.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ucr.ac.C12599.room.api.exceptions.ValidationJoin;
 import ucr.ac.C12599.room.handlers.commands.IJoinRoomHandler;
 import ucr.ac.C12599.room.jpa.entities.RoomEntity;
 import ucr.ac.C12599.room.jpa.entities.UserEntity;
 import ucr.ac.C12599.room.jpa.repositories.RoomRepository;
 import ucr.ac.C12599.room.jpa.repositories.UserRepository;
-
-import java.util.Optional;
 
 @Component
 public class JoinRoomHandler implements IJoinRoomHandler {
@@ -24,15 +23,9 @@ public class JoinRoomHandler implements IJoinRoomHandler {
 
     @Override
     public RoomEntity handle(String roomId, String alias) {
-        Optional<RoomEntity> roomOpt = roomRepository.findByRoomIdentifier(roomId);
-        if (!roomOpt.isPresent() || alias == null || alias.trim().isEmpty()) {
-            return null;
-        }
-
-        RoomEntity room = roomOpt.get();
-
-        if (userRepository.findByAliasAndRoom(alias, room).isPresent()) {
-            return null;
+        RoomEntity room = ValidationJoin.validateRoom(roomId, roomRepository);
+        if (room == null || !ValidationJoin.isAliasValid(alias, room, userRepository)) {
+            return null; // Return null if room is invalid or alias already exists
         }
 
         UserEntity user = new UserEntity();

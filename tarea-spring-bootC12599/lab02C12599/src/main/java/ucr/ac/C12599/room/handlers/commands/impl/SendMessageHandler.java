@@ -1,7 +1,7 @@
 package ucr.ac.C12599.room.handlers.commands.impl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ucr.ac.C12599.room.api.exceptions.ValidationMessage;
 import ucr.ac.C12599.room.handlers.commands.ISendMessageHandler;
 import ucr.ac.C12599.room.jpa.entities.MessageEntity;
 import ucr.ac.C12599.room.jpa.entities.RoomEntity;
@@ -9,9 +9,7 @@ import ucr.ac.C12599.room.jpa.entities.UserEntity;
 import ucr.ac.C12599.room.jpa.repositories.MessageRepository;
 import ucr.ac.C12599.room.jpa.repositories.RoomRepository;
 import ucr.ac.C12599.room.jpa.repositories.UserRepository;
-
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Component
 public class SendMessageHandler implements ISendMessageHandler {
@@ -29,25 +27,20 @@ public class SendMessageHandler implements ISendMessageHandler {
 
     @Override
     public MessageEntity handle(String roomId, String alias, String message) {
-        if (roomId == null || roomId.isEmpty() || alias == null || alias.isEmpty() || message == null || message.isEmpty()) {
-            throw new IllegalArgumentException("roomId, alias, o mensaje no pueden estar vacíos.");
+        RoomEntity room = ValidationMessage.validateRoom(roomId, roomRepository);
+        if (room == null || !ValidationMessage.isMessageValid(message)) {
+            return null; // Return null if room is invalid or message is empty
         }
 
-        Optional<RoomEntity> roomOpt = roomRepository.findByRoomIdentifier(roomId);
-        if (!roomOpt.isPresent()) {
-            throw new IllegalArgumentException("La sala con el ID proporcionado no existe.");
-        }
-
-        RoomEntity room = roomOpt.get();
-        Optional<UserEntity> userOpt = userRepository.findByAliasAndRoom(alias, room);
-        if (!userOpt.isPresent()) {
-            throw new IllegalArgumentException("El alias no está registrado en la sala.");
+        UserEntity user = ValidationMessage.validateUser(alias, room, userRepository);
+        if (user == null) {
+            return null; // Return null if user is invalid
         }
 
         MessageEntity msg = new MessageEntity();
         msg.setMessage(message);
         msg.setCreatedOn(LocalDateTime.now());
-        msg.setUser(userOpt.get());
+        msg.setUser(user);
         msg.setRoom(room);
 
         return messageRepository.save(msg);

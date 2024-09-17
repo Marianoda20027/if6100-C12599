@@ -6,9 +6,9 @@ import ucr.ac.C12599.room.jpa.entities.MessageEntity;
 import ucr.ac.C12599.room.jpa.entities.RoomEntity;
 import ucr.ac.C12599.room.jpa.repositories.MessageRepository;
 import ucr.ac.C12599.room.jpa.repositories.RoomRepository;
+import ucr.ac.C12599.room.api.exceptions.ValidationReadMessage;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class ReadMessagesHandler {
@@ -23,16 +23,12 @@ public class ReadMessagesHandler {
     }
 
     public List<MessageEntity> getMessages(String roomId) {
-        if (roomId == null || roomId.isEmpty()) {
-            throw new IllegalArgumentException("roomId no puede estar vacío.");
+        RoomEntity room = ValidationReadMessage.validateRoom(roomId, roomRepository);
+        if (room == null) {
+            return null; // Return null if room is invalid
         }
 
-        Optional<RoomEntity> roomOpt = roomRepository.findByRoomIdentifier(roomId);
-        if (!roomOpt.isPresent()) {
-            throw new IllegalArgumentException("La sala con el ID proporcionado no existe.");
-        }
-
-        RoomEntity room = roomOpt.get();
         return messageRepository.findByRoomOrderByCreatedOnAsc(room);
     }
 }
+

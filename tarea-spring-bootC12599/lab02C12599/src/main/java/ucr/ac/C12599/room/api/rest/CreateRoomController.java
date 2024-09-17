@@ -1,6 +1,6 @@
 package ucr.ac.C12599.room.api.rest;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,8 +26,10 @@ public class CreateRoomController {
         String name = payload.get("name");
         String createdBy = payload.get("createdBy");
         String identifier = createRoomHandler.handle(name, createdBy);
+
         if (identifier == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            // Return a BAD_REQUEST response with a null body if the creation fails
+            return ResponseEntity.badRequest().body(null);
         }
         return ResponseEntity.ok(identifier);
     }

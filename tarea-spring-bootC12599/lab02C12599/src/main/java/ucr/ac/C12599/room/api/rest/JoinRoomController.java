@@ -1,11 +1,9 @@
 package ucr.ac.C12599.room.api.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ucr.ac.C12599.room.handlers.commands.impl.JoinRoomHandler;
-import ucr.ac.C12599.room.handlers.queries.impl.ReadMessagesHandler;
 import ucr.ac.C12599.room.jpa.entities.RoomEntity;
 import ucr.ac.C12599.room.jpa.entities.UserEntity;
 import ucr.ac.C12599.room.jpa.repositories.UserRepository;
@@ -13,7 +11,6 @@ import ucr.ac.C12599.room.jpa.repositories.UserRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,7 +18,7 @@ import java.util.stream.Collectors;
 public class JoinRoomController {
 
     private final JoinRoomHandler joinRoomHandler;
-    private final UserRepository userRepository; // Inyectar el repositorio de usuarios
+    private final UserRepository userRepository;
 
     @Autowired
     public JoinRoomController(JoinRoomHandler joinRoomHandler, UserRepository userRepository) {
@@ -35,8 +32,9 @@ public class JoinRoomController {
         String alias = payload.get("alias");
 
         RoomEntity room = joinRoomHandler.handle(roomId, alias);
+
         if (room == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.ok(null);
         }
 
         // Obtener la lista de usuarios desde la base de datos

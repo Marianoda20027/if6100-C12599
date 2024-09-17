@@ -19,17 +19,18 @@ public class MessageEntity {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
-    @ManyToOne
-    @JoinColumn(name = "room_id", nullable = false)
-    @JsonIgnore // Evita la serialización recursiva
-    private RoomEntity room;
-
+    // Relación ManyToOne: Un mensaje pertenece a un solo usuario
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore // Evita la serialización recursiva
+    @JsonIgnore
     private UserEntity user;
 
-    // Getters y Setters
+    // Relación ManyToOne: Un mensaje pertenece indirectamente a un solo room a través del usuario
+    @ManyToOne
+    @JoinColumn(name = "room_id", nullable = false)
+    @JsonIgnore
+    private RoomEntity room;
+
     public Long getId() {
         return id;
     }
@@ -54,20 +55,20 @@ public class MessageEntity {
         this.createdOn = createdOn;
     }
 
-    public RoomEntity getRoom() {
-        return room;
-    }
-
-    public void setRoom(RoomEntity room) {
-        this.room = room;
-    }
-
     public UserEntity getUser() {
         return user;
     }
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    public RoomEntity getRoom() {
+        return room;
+    }
+
+    public void setRoom(RoomEntity room) {
+        this.room = room;
     }
 
     @Override
