@@ -1,6 +1,4 @@
-Para presentar las pruebas del API de Conversaciones Anónimas en un formato claro y visualmente atractivo, puedes ajustar el README de la siguiente manera. Asegúrate de colocar las imágenes en el directorio `images` de tu proyecto para que se visualicen correctamente en el README.
 
-```markdown
 # Pruebas del API de Conversaciones Anónimas
 
 ## Introducción
