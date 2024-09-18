@@ -24,7 +24,8 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
   }
   ```
 - **Captura de Pantalla de la Prueba:**
-  (/images/Create-Room.png)
+  
+  ![Crear Sala](./images/Create-Room.png)
 
 ### 2. Registrar Usuario en una Sala Existente
 
@@ -46,7 +47,8 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
   }
   ```
 - **Captura de Pantalla de la Prueba:**
-  ![Unirse a Sala](/images/Join-Room.png)
+  
+  ![Unirse a Sala](./images/Join-Room.png)
 
 ### 3. Enviar Mensaje a la Sala
 
@@ -69,7 +71,8 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
   }
   ```
 - **Captura de Pantalla de la Prueba:**
-  ![Enviar Mensaje](/images/Message-Room.png)
+  
+  ![Enviar Mensaje](./images/Message-Room.png)
 
 ### 4. Leer Todos los Mensajes en Orden Cronológico
 
@@ -98,7 +101,8 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
   }
   ```
 - **Captura de Pantalla de la Prueba:**
-  ![Leer Mensajes](/images/ReadMessage-Room.png)
+  
+  ![Leer Mensajes](./images/ReadMessage-Room.png)
 
 ## Script de Pruebas (Postman)
 
@@ -208,6 +212,3 @@ El directorio `images` incluye:
 - Capturas de pantalla de las pruebas realizadas en Postman para cada endpoint.
 - El script de pruebas se proporciona en formato JSON para ser importado y ejecutado en Postman.
 
----
-
-Este documento describe correctamente las pruebas realizadas, el uso de Postman para las mismas y proporciona las imágenes de los resultados obtenidos en cada endpoint.
