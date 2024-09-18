@@ -24,7 +24,7 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
   }
   ```
 - **Captura de Pantalla de la Prueba:**
-  ![Crear Sala](/images/Create-Room.png)
+  !(/images/Create-Room.png)
 
 ### 2. Registrar Usuario en una Sala Existente
 
