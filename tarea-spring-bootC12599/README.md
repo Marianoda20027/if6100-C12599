@@ -23,7 +23,7 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
     "id": "id_de_sala_generado"
   }
   ```
-- **Imagen de Prueba:** [Ver imagen](/images/Create-Room.png)
+- **Imagen de Prueba:** [Ver imagen](/pruebas/Create-Room.png)
 
 ### 2. Registrar Usuario en una Sala Existente
 
@@ -44,7 +44,7 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
     "users": ["UsuarioTest", "UsuarioNuevo"]
   }
   ```
-- **Imagen de Prueba:** [Ver imagen](/images/Join-Room.png)
+- **Imagen de Prueba:** [Ver imagen](/pruebas/Join-Room.png)
 
 ### 3. Enviar Mensaje a la Sala
 
@@ -66,7 +66,7 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
     "message": "Hola a todos!"
   }
   ```
-- **Imagen de Prueba:** [Ver imagen](/images/Message-Room.png)
+- **Imagen de Prueba:** [Ver imagen](/pruebas/Message-Room.png)
 
 ### 4. Leer Todos los Mensajes en Orden Cronológico
 
@@ -97,7 +97,7 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
     ]
   }
   ```
-- **Imagen de Prueba:** [Ver imagen](images/ReadMessage-Room.png)
+- **Imagen de Prueba:** [Ver imagen](pruebas/ReadMessage-Room.png)
 
 ## Script de Pruebas 
 
@@ -248,5 +248,5 @@ Este documento proporciona detalles sobre las pruebas realizadas para la API de 
 
 ## Entrega
 
-El directorio `images` incluye:
+El directorio `pruebas` incluye:
 - Capturas de pantalla de las pruebas realizadas en Postman para cada endpoint.
