@@ -12,8 +12,9 @@
 6. [Solución que Propone](#solución-que-propone)
 7. [Problema que Resuelve](#problema-que-resuelve)
 8. [Caso Ficticio: ProjectCloud](#caso-ficticio-projectcloud)
-9. [Conclusión](#conclusión)
-10. [Referencias](#referencias)
+9. [Implementación Mejorada con Nuevos Handlers](#implementación-mejorada-con-nuevos-handlers)
+10. [Conclusión](#conclusión)
+11. [Referencias](#referencias)
 
 ---
 
@@ -112,8 +113,24 @@ El patrón permite dividir la lógica en manejadores independientes que se puede
 2. Luego, pasa por el **manejador de permisos**, que valida si el usuario tiene los derechos necesarios para realizar la acción solicitada.
 3. Si la solicitud es válida, pasa al **manejador de sanitización de datos**, donde los datos son limpiados de caracteres no válidos.
 4. Finalmente, la solicitud pasa por el **manejador de limitación de tasa**, que asegura que no se haya excedido el límite de intentos fallidos.
+5. Tenemos un Manejador Loggin que registra cada paso de la solicitud, incluyendo los datos procesados y los resultados de cada verificación.
+6. El manejador de encriptación se encarga de encriptar los datos sensibles antes de que sean procesados, asegurando la confidencialidad de la información.
+7. Y por ultimo el manejador de Backup se encar de una copia de seguridad de las solicitudes críticas, asegurando que los datos sensibles se respalden correctamente.
 
-Este flujo permite que cada manejador se enfoque en una responsabilidad específica, lo que facilita la extensión y el mantenimiento del sistema.
+### Ejecución con los nuevos handlers:
+
+Se realizan tres pruebas para verificar el funcionamiento:
+
+1. **Caso 1: Usuario 'admin' con rol 'USER'**:
+   - Autenticación exitosa, pero falla en la validación de permisos.
+   - Los datos son encriptados y registrados, pero no se realiza la copia de seguridad debido a los permisos denegados.
+
+2. **Caso 2: Usuario 'admin' con rol 'ADMIN'**:
+   - Autenticación y permisos validados correctamente.
+   - Los datos se encriptan, se registra la solicitud y se realiza una copia de seguridad debido a la criticidad de la solicitud.
+
+3. **Caso 3: Usuario 'user1' con rol 'USER'**:
+   - Falla en la autenticación y no se continúa con el resto de los manejadores.
 
 ---
 
@@ -123,9 +140,7 @@ El **Patrón Chain of Responsibility** es una herramienta poderosa para manejar 
 
 En el contexto de **ProjectCloud**, este patrón permite que las validaciones de autenticación, permisos, sanitización de datos y limitación de tasa se manejen de manera modular y escalable. Además, si en el futuro se necesitan nuevas validaciones, simplemente se pueden agregar nuevos manejadores sin afectar el resto de la cadena.
 
-Aunque tiene algunas desventajas, como la posible pérdida de rendimiento en cadenas
-
- muy largas o la dificultad de depuración en algunos casos, cuando se utiliza correctamente, el **Chain of Responsibility** puede ser una solución eficaz para sistemas complejos que requieren procesamiento en varias etapas. 
+La implementación mejorada añade robustez con **LoggingHandler**, **EncryptionHandler** y **BackupHandler**, lo que proporciona trazabilidad, seguridad y respaldo de datos en solicitudes críticas. Esto incrementa tanto la flexibilidad como la seguridad del sistema.
 
 ---
 
@@ -136,3 +151,5 @@ Aunque tiene algunas desventajas, como la posible pérdida de rendimiento en cad
 3. Patterns of Enterprise Application Architecture by Martin Fowler.
 
 ---
+
+Con esta estructura, se integra todo el contexto ficticio, la solución aplicada y la mejora implementada en la cadena de responsabilidad para **ProjectCloud**. ¿Te gustaría ajustar o agregar algo más?
