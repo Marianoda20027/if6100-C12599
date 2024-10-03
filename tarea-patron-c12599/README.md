@@ -136,5 +136,3 @@ Aunque tiene algunas desventajas, como la posible pérdida de rendimiento en cad
 3. Patterns of Enterprise Application Architecture by Martin Fowler.
 
 ---
-
-Espero que esta estructura te sirva para tu presentación y te ayude a explicar claramente cómo funciona el patrón **Chain of Responsibility** en el contexto del caso ficticio **ProjectCloud**.
