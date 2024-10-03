@@ -115,7 +115,7 @@ El patrón permite dividir la lógica en manejadores independientes que se puede
 4. Finalmente, la solicitud pasa por el **manejador de limitación de tasa**, que asegura que no se haya excedido el límite de intentos fallidos.
 5. Tenemos un Manejador Loggin que registra cada paso de la solicitud, incluyendo los datos procesados y los resultados de cada verificación.
 6. El manejador de encriptación se encarga de encriptar los datos sensibles antes de que sean procesados, asegurando la confidencialidad de la información.
-7. Y por ultimo el manejador de Backup se encar de una copia de seguridad de las solicitudes críticas, asegurando que los datos sensibles se respalden correctamente.
+7. Y por ultimo el manejador de Backup se encarga de una copia de seguridad de las solicitudes críticas, asegurando que los datos sensibles se respalden correctamente.
 
 ### Ejecución con los nuevos handlers:
 
