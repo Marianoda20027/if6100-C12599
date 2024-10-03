@@ -1,346 +1,144 @@
-# Chain of Responsability
-## Índice
-
-1. [¿Qué es Chain of Responsibility?](#qué-es-chain-of-responsibility)
-2. [Características del Patrón Chain of Responsibility](#características-del-patrón-chain-of-responsibility)
-3. [Problema Solucionado por el Patrón Chain of Responsibility](#problema-solucionado-por-el-patrón-chain-of-responsibility)
-4. [Descripción de la Solución](#descripción-de-la-solución)
-5. [Caso de Estudio: ProjectCloud](#caso-de-estudio-projectcloud)
-6. [Implementación del Patrón en ProjectCloud](#implementación-del-patrón-en-projectcloud)
-
-## ¿Qué es Chain of Responsibility?
-
-El patrón de diseño **Chain of Responsibility** es un patrón de comportamiento que permite pasar una solicitud a través de una cadena de manejadores. Cada manejador en la cadena tiene la opción de procesar la solicitud o transferirla al siguiente manejador en la secuencia.
-
-Este patrón es útil en situaciones donde es difícil determinar qué objeto debe manejar una solicitud específica, ofreciendo una estructura flexible en la que varios objetos pueden participar en el procesamiento.
-
-## Características del Patrón Chain of Responsibility
-
-- **Desacoplamiento**: Permite separar el remitente de la solicitud de su receptor.
-- **Encadenamiento**: Los manejadores se organizan en una cadena en la que cada uno puede decidir si procesa la solicitud o la pasa al siguiente.
-- **Flexibilidad**: Permite agregar nuevos manejadores o cambiar el orden de la cadena sin modificar el código cliente.
-- **Responsabilidad**: Cada manejador tiene una responsabilidad específica y puede delegar la solicitud si no la puede manejar.
-
-## Problema Solucionado por el Patrón Chain of Responsibility
-
-Cuando trabajas en sistemas complejos, a menudo necesitas procesar una solicitud a través de una serie de verificaciones. En un sistema monolítico, todas estas verificaciones pueden estar acopladas, lo que genera código difícil de mantener.
-
-Por ejemplo, en una plataforma de pedidos en línea, las solicitudes deben pasar por una serie de verificaciones (autenticación, validación de datos, permisos, etc.). Implementar todo esto en una única función podría hacer que el código se vuelva inmanejable.
-
-### Solución
-
-El patrón **Chain of Responsibility** desacopla las verificaciones, delegando cada validación a un manejador específico. Esto permite una mayor flexibilidad y facilita el mantenimiento.
-
-## Descripción de la Solución
-
-El **Patrón Chain of Responsibility** permite pasar una solicitud por una cadena de objetos hasta que uno de ellos la maneje. Cada objeto puede procesar la solicitud o delegarla al siguiente manejador en la cadena.
-
-Esto permite desacoplar el remitente de la solicitud de los receptores y facilita la adición de nuevos manejadores sin modificar la estructura existente.
-
-## Caso de Estudio: ProjectCloud
-
-**ProjectCloud** es una plataforma de gestión de proyectos que maneja varias capas de validación antes de permitir que los usuarios realicen ciertas acciones. Cada solicitud debe pasar por una serie de validaciones como:
-
-1. **Autenticación**: Solo los usuarios autenticados pueden acceder a los recursos.
-2. **Validación de Permisos**: Algunos recursos están restringidos a usuarios con roles específicos (por ejemplo, administradores).
-3. **Sanitización de Datos**: Los datos, como nombres de proyectos, deben estar libres de caracteres no permitidos.
-4. **Limitación de Tasa (Rate Limiting)**: Se debe limitar el número de intentos fallidos permitidos por usuario en un período de tiempo.
+Aquí te dejo la versión completa con el contexto del caso ficticio, cómo se resuelve, las ventajas, desventajas, y con tu nombre y número de carné, además de una sección de referencias al final.
 
 ---
 
-## Implementación del Patrón en ProjectCloud
-
-Vamos a implementar este escenario utilizando el patrón **Chain of Responsibility** y probaremos el sistema directamente en el método `main`.
-
-### 1. Interfaz `RequestHandler`
-
-Esta interfaz define la estructura de los manejadores en la cadena.
-
-```java
-package room.handlers.commands;
-
-public interface RequestHandler {
-    void setNextHandler(RequestHandler nextHandler);
-    void handleRequest(Request request);
-}
-```
-
-### 2. Clase `Request`
-
-Esta clase representa la solicitud del usuario que pasará por los diferentes manejadores.
-
-```java
-package room.handlers.commands;
-
-public class Request {
-    private String user;
-    private String role;
-    private String data;
-    private boolean isAuthenticated;
-    private boolean isAuthorized;
-    private int failedAttempts;
-
-    public Request(String user, String role, String data) {
-        this.user = user;
-        this.role = role;
-        this.data = data;
-        this.isAuthenticated = false;
-        this.isAuthorized = false;
-        this.failedAttempts = 0;
-    }
-
-    // Getters y Setters
-    public String getUser() { return user; }
-    public String getRole() { return role; }
-    public String getData() { return data; }
-    public void setData(String data) { this.data = data; }
-    public boolean isAuthenticated() { return isAuthenticated; }
-    public void setAuthenticated(boolean authenticated) { this.isAuthenticated = authenticated; }
-    public boolean isAuthorized() { return isAuthorized; }
-    public void setAuthorized(boolean authorized) { this.isAuthorized = authorized; }
-    public int getFailedAttempts() { return failedAttempts; }
-    public void incrementFailedAttempts() { this.failedAttempts++; }
-}
-```
-
-### 3. Manejadores en la Cadena
-
-#### Manejador de Autenticación (`AuthHandler`)
-
-Verifica si el usuario está autenticado (solo los usuarios con nombre `"admin"` se pueden autenticar).
-
-```java
-package room.handlers.commands.impl;
-
-import room.handlers.commands.Request;
-import room.handlers.commands.RequestHandler;
-
-public class AuthHandler implements RequestHandler {
-    private RequestHandler nextHandler;
-
-    @Override
-    public void setNextHandler(RequestHandler nextHandler) {
-        this.nextHandler = nextHandler;
-    }
-
-    @Override
-    public void handleRequest(Request request) {
-        System.out.println("Verificando autenticación para el usuario: " + request.getUser());
-
-        if (authenticate(request)) {
-            request.setAuthenticated(true);
-            System.out.println("Autenticación exitosa para el usuario: " + request.getUser());
-            if (nextHandler != null) {
-                nextHandler.handleRequest(request);
-            }
-        } else {
-            request.incrementFailedAttempts();
-            System.out.println("Fallo en la autenticación para el usuario: " + request.getUser());
-        }
-    }
-
-    private boolean authenticate(Request request) {
-        return "admin".equals(request.getUser());
-    }
-}
-```
-
-#### Manejador de Permisos (`PermissionHandler`)
-
-Verifica si el usuario tiene los permisos correctos basados en su rol.
-
-```java
-package room.handlers.commands.impl;
+# Patrón Chain of Responsibility: Explicación Completa
 
-import room.handlers.commands.Request;
-import room.handlers.commands.RequestHandler;
+**Presentado por:** Mariano Durán Artavia  
+**Carnet:** C12599
 
-public class PermissionHandler implements RequestHandler {
-    private RequestHandler nextHandler;
+## Índice
+1. [¿Qué es Chain of Responsibility?](#qué-es-chain-of-responsibility)
+2. [Ventajas del Patrón Chain of Responsibility](#ventajas-del-patrón-chain-of-responsibility)
+3. [Desventajas del Patrón Chain of Responsibility](#desventajas-del-patrón-chain-of-responsibility)
+4. [Ejemplo de la Vida Real](#ejemplo-de-la-vida-real)
+5. [Componentes Usados en el Patrón Chain of Responsibility](#componentes-usados-en-el-patrón-chain-of-responsibility)
+6. [Solución que Propone](#solución-que-propone)
+7. [Problema que Resuelve](#problema-que-resuelve)
+8. [Caso Ficticio: ProjectCloud](#caso-ficticio-projectcloud)
+9. [Conclusión](#conclusión)
+10. [Referencias](#referencias)
 
-    @Override
-    public void setNextHandler(RequestHandler nextHandler) {
-        this.nextHandler = nextHandler;
-    }
+---
 
-    @Override
-    public void handleRequest(Request request) {
-        System.out.println("Verificando permisos para el rol: " + request.getRole());
+## ¿Qué es Chain of Responsibility?
 
-        if (checkPermissions(request)) {
-            request.setAuthorized(true);
-            System.out.println("Permisos concedidos para el rol: " + request.getRole());
-            if (nextHandler != null) {
-                nextHandler.handleRequest(request);
-            }
-        } else {
-            System.out.println("Permisos denegados para el rol: " + request.getRole());
-        }
-    }
+El **Patrón Chain of Responsibility** es un patrón de diseño de comportamiento que permite pasar una solicitud a través de una cadena de objetos (manejadores), donde cada uno puede decidir si procesa la solicitud o la delega al siguiente manejador en la secuencia. Este patrón desacopla el remitente de la solicitud de los posibles receptores, permitiendo que varios objetos tengan la oportunidad de manejar la solicitud sin que el remitente necesite saber cuál de ellos la procesará.
 
-    private boolean checkPermissions(Request request) {
-        return "ADMIN".equals(request.getRole());
-    }
-}
-```
+El patrón es útil cuando tienes múltiples objetos que podrían manejar una solicitud, y deseas evitar que el código cliente tenga que saber cuál objeto debe procesarla.
 
-#### Manejador de Sanitización de Datos (`DataSanitizationHandler`)
+---
 
-Este manejador limpia los datos proporcionados en la solicitud para eliminar caracteres no permitidos.
+## Ventajas del Patrón Chain of Responsibility
 
-```java
-package room.handlers.commands.impl;
+1. **Desacoplamiento**: Separa el remitente de la solicitud de los posibles receptores. El cliente no necesita saber quién manejará la solicitud, lo que resulta en un código más modular y fácil de mantener.
+   
+2. **Flexibilidad y extensibilidad**: Es fácil agregar nuevos manejadores o cambiar el orden de los existentes sin modificar el código cliente. La cadena de procesamiento puede ajustarse según cambien las necesidades del sistema.
 
-import room.handlers.commands.Request;
-import room.handlers.commands.RequestHandler;
+3. **Simplicidad en el manejo de solicitudes**: Divide la responsabilidad en varios manejadores, haciendo que el código sea más fácil de leer y mantener. Cada manejador tiene una única responsabilidad, lo que mejora la claridad y el enfoque de cada parte.
 
-public class DataSanitizationHandler implements RequestHandler {
-    private RequestHandler nextHandler;
+4. **Reutilización del código**: Los manejadores pueden ser reutilizados en otros contextos sin necesidad de modificar la lógica del cliente. Esto promueve la reutilización de componentes y facilita la introducción de nuevas reglas de negocio.
 
-    @Override
-    public void setNextHandler(RequestHandler nextHandler) {
-        this.nextHandler = nextHandler;
-    }
-
-    @Override
-    public void handleRequest(Request request) {
-        System.out.println("Sanitizando datos para la solicitud: " + request.getData());
-
-        request.setData(sanitize(request.getData()));
-
-        if (nextHandler != null) {
-            nextHandler.handleRequest(request);
-        }
-    }
-
-    private String sanitize(String data) {
-        return data.replaceAll("[^a-zA-Z0-9]", "");
-    }
-}
-```
-
-#### Manejador de Limitación de Tasa (`RateLimitHandler`)
-
-Este manejador controla cuántos intentos fallidos tiene un usuario y si se ha excedido el límite permitido.
-
-```java
-package room.handlers.commands.impl;
-
-import room.handlers.commands.Request;
-import room.handlers.commands.RequestHandler;
-
-public class RateLimitHandler implements RequestHandler {
-    private RequestHandler nextHandler;
-
-    @Override
-    public void setNextHandler(RequestHandler nextHandler) {
-        this.nextHandler = nextHandler;
-    }
-
-    @Override
-    public void handleRequest(Request request) {
-        System.out.println("Verificando límite de tasa para el usuario: " + request.getUser());
-
-        if (request.getFailedAttempts() > 3) {
-            System.out.println("Se ha excedido el límite de intentos fallidos para el usuario: " + request.getUser());
-            return;
-        }
-
-        if (nextHandler != null) {
-            nextHandler.handleRequest(request);
-        }
-    }
-}
-``
-
-`
-
-### 4. Clase Principal con el Método `main`
-
-En la clase principal, orquestamos el flujo de las solicitudes en ProjectCloud.
-
-```java
-package room;
-
-import room.handlers.commands.Request;
-import room.handlers.commands.RequestHandler;
-import room.handlers.commands.impl.*;
-
-public class ProjectCloudApp {
-    public static void main(String[] args) {
-        System.out.println("Iniciando el procesamiento de solicitudes en ProjectCloud...");
-
-        // Configuración de la cadena de responsabilidad
-        RequestHandler authHandler = new AuthHandler();
-        RequestHandler permissionHandler = new PermissionHandler();
-        RequestHandler dataSanitizationHandler = new DataSanitizationHandler();
-        RequestHandler rateLimitHandler = new RateLimitHandler();
-
-        // Encadenar los manejadores
-        authHandler.setNextHandler(permissionHandler);
-        permissionHandler.setNextHandler(dataSanitizationHandler);
-        dataSanitizationHandler.setNextHandler(rateLimitHandler);
-
-        // Caso 1: Usuario autenticado pero sin permisos (rol "USER")
-        System.out.println("\n=== Caso 1: Usuario 'admin' con rol 'USER' ===");
-        Request request1 = new Request("admin", "USER", "Datos importantes!@#");
-        authHandler.handleRequest(request1);
-        printResult(request1);
-
-        // Caso 2: Usuario autenticado con permisos (rol "ADMIN")
-        System.out.println("\n=== Caso 2: Usuario 'admin' con rol 'ADMIN' ===");
-        Request request2 = new Request("admin", "ADMIN", "Datos válidos");
-        authHandler.handleRequest(request2);
-        printResult(request2);
-
-        // Caso 3: Usuario no autenticado
-        System.out.println("\n=== Caso 3: Usuario 'user1' con rol 'USER' ===");
-        Request request3 = new Request("user1", "USER", "Datos inválidos");
-        authHandler.handleRequest(request3);
-        printResult(request3);
-    }
-
-    private static void printResult(Request request) {
-        if (!request.isAuthenticated()) {
-            System.out.println("Resultado: Autenticación fallida.");
-        } else if (!request.isAuthorized()) {
-            System.out.println("Resultado: Permisos denegados.");
-        } else {
-            System.out.println("Resultado: Solicitud procesada exitosamente.");
-        }
-    }
-}
-```
-
-### Ejecución
-
-Al ejecutar el programa, la salida simulada será algo como:
-
-```plaintext
-Iniciando el procesamiento de solicitudes en ProjectCloud...
-
-=== Caso 1: Usuario 'admin' con rol 'USER' ===
-Verificando autenticación para el usuario: admin
-Autenticación exitosa para el usuario: admin
-Verificando permisos para el rol: USER
-Permisos denegados para el rol: USER
-Resultado: Permisos denegados.
-
-=== Caso 2: Usuario 'admin' con rol 'ADMIN' ===
-Verificando autenticación para el usuario: admin
-Autenticación exitosa para el usuario: admin
-Verificando permisos para el rol: ADMIN
-Permisos concedidos para el rol: ADMIN
-Sanitizando datos para la solicitud: Datos válidos
-Verificando límite de tasa para el usuario: admin
-Resultado: Solicitud procesada exitosamente.
-
-=== Caso 3: Usuario 'user1' con rol 'USER' ===
-Verificando autenticación para el usuario: user1
-Fallo en la autenticación para el usuario: user1
-Resultado: Autenticación fallida.
-```
-
-### Conclusión
-
-Este código simula el flujo de validación usando el patrón **Chain of Responsibility** en el contexto de la plataforma ficticia **ProjectCloud**. La cadena de manejadores valida la autenticación, permisos, sanitiza los datos y limita las solicitudes para proporcionar un sistema flexible y desacoplado.
+5. **Mantenimiento sencillo**: Como los manejadores son independientes entre sí, es fácil modificar uno sin afectar a los demás, lo que hace el sistema más fácil de mantener.
+
+---
+
+## Desventajas del Patrón Chain of Responsibility
+
+1. **Dificultad en depuración**: Si la cadena es demasiado larga o compleja, puede ser difícil rastrear dónde y cómo se maneja una solicitud. Esto complica la depuración, ya que no es obvio qué manejador procesó la solicitud o por qué fue rechazada.
+
+2. **Pérdida de control por parte del cliente**: El cliente no tiene control directo sobre quién maneja la solicitud. Esto puede llevar a comportamientos inesperados si no se tiene cuidado en cómo se estructuran los manejadores.
+
+3. **Pérdida de rendimiento**: En cadenas largas, el rendimiento puede verse afectado, ya que cada solicitud debe pasar por múltiples manejadores antes de ser procesada o rechazada. Esto puede ser una sobrecarga innecesaria en sistemas donde el tiempo es crítico.
+
+4. **Complejidad en cadenas largas**: Cuando la cadena crece mucho, la gestión se vuelve más complicada, especialmente si los manejadores dependen entre sí o si la lógica es confusa.
+
+---
+
+## Ejemplo de la Vida Real
+
+Un ejemplo claro de **Chain of Responsibility** es un sistema de soporte técnico de varios niveles:
+
+- Cuando un cliente presenta una solicitud de ayuda, inicialmente esta es atendida por un **soporte de nivel básico** que intenta resolver el problema usando soluciones comunes.
+- Si el soporte básico no puede resolver el problema, lo pasa al **soporte de nivel intermedio**, que tiene más conocimientos para abordar problemas más complejos.
+- Si el soporte de nivel intermedio tampoco puede resolver el problema, se escalará al **soporte de nivel avanzado** o a un **ingeniero especializado**.
+
+El cliente no necesita saber quién resolverá su problema; solo envía la solicitud, y el sistema se encarga de pasarla a través de los niveles de soporte.
+
+---
+
+## Componentes Usados en el Patrón Chain of Responsibility
+
+1. **Manejador (Handler)**: Cada objeto en la cadena que puede procesar la solicitud. Si no puede manejar la solicitud, la pasa al siguiente manejador en la cadena.
+   
+2. **Cliente (Client)**: El objeto o entidad que envía la solicitud a través de la cadena de manejadores. El cliente no necesita saber qué manejador la procesará.
+
+3. **Solicitud (Request)**: La información o acción que se debe procesar, como en el caso de **ProjectCloud**, donde las solicitudes contienen datos del usuario, roles y permisos.
+
+4. **Manejador Concreto (Concrete Handler)**: Implementaciones específicas de los manejadores que contienen la lógica para procesar la solicitud. Ejemplos: `AuthHandler` para la autenticación y `PermissionHandler` para los permisos.
+
+---
+
+## Solución que Propone
+
+El **Patrón Chain of Responsibility** propone una solución para evitar que el cliente tenga que lidiar con quién o cómo se maneja una solicitud. Permite que la solicitud fluya a través de una cadena, donde cada manejador tiene una responsabilidad específica. Si un manejador no puede procesar la solicitud, la pasa al siguiente en la cadena, lo que hace que el cliente esté completamente desacoplado de los detalles de procesamiento.
+
+Esto facilita la extensibilidad y el mantenimiento del sistema, ya que puedes agregar nuevos manejadores, reorganizarlos o modificar sus responsabilidades sin afectar el código del cliente ni la estructura general de la cadena.
+
+---
+
+## Problema que Resuelve
+
+El patrón **Chain of Responsibility** resuelve el problema de sistemas monolíticos donde todas las validaciones o pasos de procesamiento están mezclados en una única función o clase. Estos sistemas son difíciles de mantener, propensos a errores y difíciles de escalar.
+
+El patrón permite dividir la lógica en manejadores independientes que se pueden organizar en una cadena. Cada manejador se enfoca en una tarea específica, y si no puede procesar la solicitud, la delega al siguiente. Esto facilita el mantenimiento, la modificación y la extensión del sistema sin afectar su integridad.
+
+---
+
+## Caso Ficticio: ProjectCloud
+
+**Contexto del Caso:**
+
+**ProjectCloud** es una plataforma de gestión de proyectos en la nube donde los usuarios pueden crear proyectos, asignar tareas y colaborar en tiempo real. Dado el gran volumen de usuarios y solicitudes, es crucial que la plataforma implemente varias validaciones antes de permitir el acceso o la ejecución de cualquier acción en la API.
+
+### Validaciones requeridas en ProjectCloud:
+
+1. **Autenticación**: Solo los usuarios autenticados pueden acceder a los recursos.
+2. **Validación de Permisos**: Algunos recursos están restringidos a usuarios con roles específicos, como administradores.
+3. **Sanitización de Datos**: Los datos enviados, como nombres de proyectos, deben estar limpios de caracteres no permitidos.
+4. **Limitación de Tasa (Rate Limiting)**: Se debe limitar el número de intentos fallidos por usuario para evitar abusos o ataques.
+
+### Solución con Chain of Responsibility:
+
+**ProjectCloud** implementa estas validaciones utilizando el patrón **Chain of Responsibility**. Cada validación (autenticación, permisos, sanitización de datos, y limitación de tasa) se implementa como un **manejador** independiente dentro de una cadena.
+
+1. La solicitud pasa primero por el **manejador de autenticación** para verificar si el usuario está autenticado.
+2. Luego, pasa por el **manejador de permisos**, que valida si el usuario tiene los derechos necesarios para realizar la acción solicitada.
+3. Si la solicitud es válida, pasa al **manejador de sanitización de datos**, donde los datos son limpiados de caracteres no válidos.
+4. Finalmente, la solicitud pasa por el **manejador de limitación de tasa**, que asegura que no se haya excedido el límite de intentos fallidos.
+
+Este flujo permite que cada manejador se enfoque en una responsabilidad específica, lo que facilita la extensión y el mantenimiento del sistema.
+
+---
+
+## Conclusión
+
+El **Patrón Chain of Responsibility** es una herramienta poderosa para manejar solicitudes que deben pasar por múltiples validaciones o etapas de procesamiento. Al desacoplar el remitente de la solicitud de los manejadores que la procesan, se obtiene una arquitectura flexible, extensible y fácil de mantener. 
+
+En el contexto de **ProjectCloud**, este patrón permite que las validaciones de autenticación, permisos, sanitización de datos y limitación de tasa se manejen de manera modular y escalable. Además, si en el futuro se necesitan nuevas validaciones, simplemente se pueden agregar nuevos manejadores sin afectar el resto de la cadena.
+
+Aunque tiene algunas desventajas, como la posible pérdida de rendimiento en cadenas
+
+ muy largas o la dificultad de depuración en algunos casos, cuando se utiliza correctamente, el **Chain of Responsibility** puede ser una solución eficaz para sistemas complejos que requieren procesamiento en varias etapas. 
+
+---
+
+## Referencias
+
+1. Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides, *Design Patterns: Elements of Reusable Object-Oriented Software*.
+2. Freeman, Eric, and Elisabeth Robson. *Head First Design Patterns*. O'Reilly Media, Inc.
+3. Patterns of Enterprise Application Architecture by Martin Fowler.
+
+---
+
+Espero que esta estructura te sirva para tu presentación y te ayude a explicar claramente cómo funciona el patrón **Chain of Responsibility** en el contexto del caso ficticio **ProjectCloud**.
