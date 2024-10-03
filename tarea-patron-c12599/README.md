@@ -1,5 +1,4 @@
-Aquí te dejo la versión corregida de la implementación completa junto con el índice ajustado, asegurando que todo está en orden con respecto al escenario de **ProjectCloud** y el uso del **Patrón Chain of Responsibility**. He ajustado el índice para que esté alineado con los contenidos y ejemplos presentados en el código.
-
+# Chain of Responsability
 ## Índice
 
 1. [¿Qué es Chain of Responsibility?](#qué-es-chain-of-responsibility)
