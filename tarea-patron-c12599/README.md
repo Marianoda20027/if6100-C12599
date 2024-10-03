@@ -1,8 +1,4 @@
-Aquí te dejo la versión completa con el contexto del caso ficticio, cómo se resuelve, las ventajas, desventajas, y con tu nombre y número de carné, además de una sección de referencias al final.
-
----
-
-# Patrón Chain of Responsibility: Explicación Completa
+# Patrón Chain of Responsibility
 
 **Presentado por:** Mariano Durán Artavia  
 **Carnet:** C12599
