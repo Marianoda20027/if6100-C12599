@@ -2,7 +2,7 @@
 import { Button, Form, Input, Space } from 'antd';
 import React from 'react';
 import { useDependencies } from './hooks';
-
+//LAB7
 const RegisterUser = () => {
 	const { initialValues, handleSubmit, rules } = useDependencies();
 	return (

@@ -1,4 +1,5 @@
 import { RegisterUserForm } from './types';
+//LAB7
 
 export const useDependencies = () => {
 	const initialValues = {
