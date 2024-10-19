@@ -1,101 +1,81 @@
-## Trabajo de Investigación
+# Guía de Despliegue de Software: Consideraciones de Seguridad y Estrategias de Reversión
 
-### Indicaciones
+## Introducción
+El despliegue de software es un proceso clave en el ciclo de vida del desarrollo de aplicaciones, que abarca desde la entrega del código en entornos de producción hasta su mantenimiento. A medida que las aplicaciones crecen en complejidad y se desarrollan en entornos de nube y arquitecturas distribuidas, las **consideraciones de seguridad** y las **estrategias de reversión y manejo de fallos** se vuelven esenciales. En esta guía, exploraremos siete consideraciones de seguridad y siete estrategias para manejar fallos y realizar reversiones efectivas.
 
-- A realizarse en grupos de 3.
-- Se deberá elegir un tema entre los listados y realizar un trabajo de investigación sobre los conceptos que se les solicitan.
-- Los entregables deben ser:
-    - Documento formal de los resultados de investigación.
-    - Documento con estándares, recomendaciones o reglas para ser aplicado en el proyecto.
-    - Exposición de no más de 20 minutos donde expongan los hallazgos.
+## Consideraciones de Seguridad en el Despliegue de Aplicaciones
 
-#### Guía de Despliegue (Grupo _)
+1. **Evaluación de vulnerabilidades desde el inicio del desarrollo**  
+   Integrar pruebas de seguridad desde las primeras fases del desarrollo (Shift Left Security) permite identificar vulnerabilidades antes de que el software alcance el entorno de producción. Herramientas como **SonarQube** y **Snyk** analizan el código fuente en busca de vulnerabilidades conocidas, minimizando los riesgos antes del despliegue final [IBM](https://www.ibm.com), [InvGate](https://www.invgate.com).
 
-- Estrategias de implementación de software (despliegue continuo, despliegue gradual, etc.).
-- Herramientas y plataformas de automatización de despliegue (CI/CD).
-- Consideraciones de seguridad en el despliegue de aplicaciones.
-- Monitorización y registro de aplicaciones en producción.
-- Estrategias de reversión y manejo de fallos en el despliegue.
+2. **Implementación de pipelines CI/CD seguros**  
+   Automatizar el despliegue mediante CI/CD no solo mejora la eficiencia, sino que también reduce los errores humanos y mejora la seguridad. Un pipeline CI/CD seguro incluye autenticación multifactor (MFA), cifrado de datos y análisis de vulnerabilidades durante cada etapa del ciclo de desarrollo [IBM](https://www.ibm.com), [Atlassian](https://www.atlassian.com).
 
-### Entregables
+3. **Revisión exhaustiva del código fuente y pruebas dinámicas**  
+   Realizar pruebas de seguridad estáticas (análisis de código fuente) y dinámicas (evaluación de la aplicación en ejecución) es esencial para detectar fallos de seguridad. Estas pruebas deben realizarse tanto en entornos de desarrollo como en entornos que emulen condiciones reales [IBM](https://www.ibm.com).
 
-- Documento formal de los resultados de investigación(33%).
-    - Debe contener una introducción, desarrollo y conclusiones.
-    - Debe contener referencias bibliográficas.
-    - Debe contener ejemplos prácticos.
-- Documento con estándares, recomendaciones o reglas para ser aplicado en el proyecto(33%).
-    - Debe ser un documento técnico.
-    - Debe contener instrucciónes claras y concisas.
-- Exposición de no más de 20 minutos donde expongan los hallazgos(34%).
-    - Debe ser una presentación formal.
-    - Debe contener ejemplos prácticos.
-    - Debe contener una demostración práctica.
-    - Debe contener una sección de preguntas y respuestas.
+4. **Protección de datos sensibles y políticas de cifrado**  
+   Durante el despliegue, los datos sensibles deben estar protegidos mediante políticas de cifrado tanto en reposo como en tránsito. Implementar el protocolo HTTPS y utilizar cifrados robustos (como AES-256) protege la integridad y la confidencialidad de los datos [InvGate](https://www.invgate.com), [NinjaOne](https://www.ninjaone.com).
 
-Todos los documentos se deberán entregar en un Pull Request donde se deben crear un subdirectorio en el directorio de investigación con el nombre del proyecto.
+5. **Gestión de dependencias y librerías externas**  
+   Las librerías de terceros y los frameworks externos pueden ser una fuente significativa de vulnerabilidades. Por ello, es fundamental gestionar las dependencias con herramientas como **Dependabot** o **Snyk**, que identifican vulnerabilidades conocidas en componentes de software [IBM](https://www.ibm.com).
 
-### Fecha de entrega
+6. **Monitorización de acceso y control de privilegios**  
+   Implementar políticas de control de acceso y principios de privilegio mínimo (least privilege) ayuda a limitar el acceso no autorizado a sistemas críticos durante el despliegue. Los sistemas de auditoría y monitoreo continuo, como **Splunk** o **Datadog**, pueden ayudar a detectar actividades sospechosas [NinjaOne](https://www.ninjaone.com).
 
-- La fecha de entrega será para el día 1 de noviembre del 2021 a las 5:00 p.m.
-- Se debe registrar la entrega en el siguiente enlace: [Registro de Entregas](https://forms.gle/rtrNtDY3JSajjvLZ7)
+7. **Cumplimiento de normativas y estándares de seguridad**  
+   Cumplir con normativas como **GDPR**, **PCI DSS** o **HIPAA** garantiza que las aplicaciones cumplan con los requisitos legales y de seguridad. Estos estándares no solo protegen a las organizaciones de sanciones legales, sino que también refuerzan la confianza de los usuarios finales [IBM](https://www.ibm.com), [NinjaOne](https://www.ninjaone.com).
 
-  # Desarrollo
-  Consideraciones de Seguridad en el Despliegue de Aplicaciones
-La seguridad en el despliegue de software no solo abarca la protección del código y los datos durante el proceso de desarrollo, sino también la seguridad de las infraestructuras de producción. A continuación, se presentan cinco consideraciones clave:
+---
 
-Integración de seguridad en el ciclo de vida del desarrollo de software (SDLC) Implementar la seguridad desde el inicio del ciclo de vida del software es esencial para identificar y mitigar posibles vulnerabilidades antes de que el software se despliegue. Esto incluye la revisión de código, análisis de vulnerabilidades y pruebas de seguridad en cada etapa del pipeline de CI/CD​
-IBM - UNITED STATES
-. Las herramientas automatizadas, como el escaneo de código estático y dinámico, son fundamentales para este propósito.
+## Estrategias de Reversión y Manejo de Fallos en el Despliegue
 
-Validación y autenticación de usuarios Uno de los principales riesgos en el despliegue de aplicaciones son los accesos no autorizados. Implementar fuertes mecanismos de autenticación y autorización, como el uso de multifactor authentication (MFA), reduce significativamente el riesgo de ataques de suplantación de identidad y acceso no autorizado​
-IBM - UNITED STATES
-. Asimismo, la encriptación de los datos de autenticación garantiza que la información sensible no se vea comprometida durante las fases de despliegue.
+1. **Blue-Green Deployment**  
+   El **despliegue Blue-Green** consiste en mantener dos entornos de producción: uno activo y otro inactivo pero listo para recibir actualizaciones. Si la nueva versión desplegada en el entorno "Blue" falla, se puede revertir inmediatamente al entorno "Green", minimizando el impacto sobre los usuarios finales [Sentrio.io](https://www.sentrio.io).
 
-Pruebas de seguridad previas al despliegue Las pruebas de seguridad incluyen tanto pruebas manuales como automatizadas que simulan ataques comunes para detectar vulnerabilidades, tales como inyecciones SQL, Cross-Site Scripting (XSS), y ataques DDoS​
-IBM - UNITED STATES
-​
-INVGATE ITSM BLOG
-. Al probar la aplicación en entornos similares a los de producción, los equipos pueden identificar brechas de seguridad antes del despliegue.
+   **Ejemplo Práctico**: Un sistema de pagos en línea implementó un despliegue Blue-Green para actualizar su plataforma. Tras observar errores en el procesamiento de transacciones, revirtieron inmediatamente al entorno Green, garantizando una mínima interrupción del servicio.
 
-Manejo de dependencias y librerías externas Las aplicaciones modernas suelen depender de librerías y frameworks externos que, si no se gestionan adecuadamente, pueden introducir vulnerabilidades en el sistema. Mantener actualizadas las dependencias y realizar análisis regulares para detectar vulnerabilidades conocidas es crucial para asegurar el entorno de despliegue​
-IBM - UNITED STATES
-​
-NINJAONE
-.
+2. **Canary Release**  
+   En esta estrategia, la nueva versión de software se despliega primero a un pequeño grupo de usuarios. Si el sistema responde de forma adecuada y no se detectan errores, el despliegue se amplía a más usuarios gradualmente. Esta técnica es particularmente útil para minimizar riesgos en actualizaciones de gran envergadura [Sentrio.io](https://www.sentrio.io), [InvGate](https://www.invgate.com).
 
-Protección de datos sensibles durante el despliegue Durante el proceso de despliegue, es fundamental asegurar que los datos sensibles, como información de clientes, se mantengan protegidos a través de técnicas de cifrado y políticas de acceso restrictivas. Las configuraciones erróneas de los sistemas de bases de datos o el acceso inseguro a APIs son riesgos comunes que deben abordarse​
-NINJAONE
-.
+   **Ejemplo Práctico**: Una red social lanzó una actualización de su feed de noticias utilizando un Canary Release. Inicialmente, solo el 5% de los usuarios tuvo acceso a la nueva versión. Al cabo de unos días sin problemas, el despliegue se extendió al resto de los usuarios.
 
-Estrategias de Reversión y Manejo de Fallos en el Despliegue
-El despliegue de software nunca está exento de riesgos, por lo que contar con estrategias de reversión y manejo de fallos efectivas es crucial para minimizar el impacto de errores y mantener la continuidad del servicio. A continuación, se describen cinco estrategias de reversión ampliamente utilizadas:
+3. **Rolling Deployment**  
+   Similar al Canary Release, pero en este caso, la nueva versión reemplaza gradualmente a la anterior en todos los servidores. Si se detecta un problema durante el despliegue en un grupo de servidores, se puede detener el proceso antes de que afecte a todo el sistema [NinjaOne](https://www.ninjaone.com).
 
-Blue-Green Deployment Esta estrategia implica mantener dos entornos de producción: uno en uso (Green) y uno inactivo pero listo para recibir la nueva versión (Blue). Cuando la versión Blue se prueba y se considera estable, el tráfico se redirige a ella. Si se detecta un fallo, es sencillo revertir al entorno Green con un mínimo tiempo de inactividad​
-SENTRIO
-.
+   **Ejemplo Práctico**: Una empresa de SaaS aplicó un Rolling Deployment para actualizar su sistema de facturación, desplegando la nueva versión en servidores de diferentes regiones en intervalos de tiempo controlados.
 
-Ejemplo Práctico: En una implementación Blue-Green para una plataforma e-commerce, la versión Blue contenía nuevas características. Tras desplegarla y redirigir el tráfico, se detectaron errores en la integración con el sistema de pago. Se revirtió rápidamente al entorno Green, garantizando que los clientes no experimentaran fallos en el servicio.
+4. **Rollback Automatizado**  
+   El **rollback automatizado** permite revertir rápidamente a una versión anterior en caso de fallos críticos. Esta técnica depende de un control riguroso de versiones y pipelines automatizados que permiten restaurar versiones estables en cuestión de minutos [NinjaOne](https://www.ninjaone.com).
 
-Canary Release En lugar de desplegar la nueva versión a todos los usuarios a la vez, el Canary Release permite que solo una pequeña porción de los usuarios acceda inicialmente a la nueva versión. Si el rendimiento es aceptable y no se detectan problemas, se incrementa gradualmente el porcentaje de usuarios con acceso​
-SENTRIO
-.
+   **Ejemplo Práctico**: Una plataforma de banca móvil detectó un fallo crítico en su funcionalidad de transferencia de fondos después de un despliegue. Gracias al rollback automatizado, el sistema volvió a la versión anterior en pocos minutos.
 
-Ejemplo Práctico: Un servicio de streaming implementó una Canary Release para una nueva función de recomendación. Inicialmente, solo el 5% de los usuarios tuvo acceso a la función. Al cabo de una semana de monitoreo, sin incidentes reportados, el despliegue se amplió al 100% de los usuarios.
+5. **Dark Launching**  
+   En un **Dark Launch**, las nuevas funcionalidades se despliegan en el entorno de producción pero no son visibles para los usuarios finales. Esto permite probar su rendimiento y monitorear el impacto en el sistema sin comprometer la experiencia del usuario [Sentrio.io](https://www.sentrio.io).
 
-Rolling Deployment Similar al Canary Release, esta estrategia despliega la nueva versión en pequeños lotes a lo largo del tiempo, reemplazando gradualmente la versión anterior en todos los servidores. Esto es útil para minimizar la sobrecarga del sistema y reducir los riesgos durante el despliegue​
-INVGATE ITSM BLOG
-.
+   **Ejemplo Práctico**: Un sitio de comercio electrónico activó una nueva función de búsqueda avanzada como un Dark Launch. Los ingenieros monitorearon el rendimiento bajo condiciones reales antes de lanzarla oficialmente.
 
-Ejemplo Práctico: Un proveedor de SaaS utilizó un Rolling Deployment para actualizar su sistema de gestión de inventario. Desplegaron la actualización en un 10% de sus servidores en intervalos de 12 horas, permitiendo una fácil reversión en caso de problemas.
+6. **Feature Toggles (banderas de características)**  
+   Esta técnica permite activar o desactivar funcionalidades específicas sin necesidad de realizar un nuevo despliegue. Las feature toggles permiten probar características en producción sin que los usuarios las vean hasta que se considera seguro activarlas [Sentrio.io](https://www.sentrio.io).
 
-Rollback Automatizado En un despliegue fallido, la capacidad de revertir rápidamente a una versión anterior es esencial. El Rollback automatizado se apoya en sistemas de control de versiones y pipelines de CI/CD que permiten restaurar versiones previas sin intervención manual​
-NINJAONE
-.
+   **Ejemplo Práctico**: Un equipo de desarrollo introdujo una nueva interfaz para su aplicación web. Usaron feature toggles para habilitar la nueva versión solo para los empleados de la empresa, obteniendo retroalimentación antes de su lanzamiento global.
 
-Ejemplo Práctico: Durante un despliegue continuo en una aplicación de banca móvil, un error crítico en la autenticación de usuarios forzó un rollback automático a la versión estable anterior en cuestión de minutos, evitando que los clientes quedaran bloqueados de sus cuentas.
+7. **A/B Testing**  
+   En el A/B testing, dos versiones diferentes de la aplicación se despliegan simultáneamente para grupos de usuarios distintos. Esto permite comparar el rendimiento y la aceptación de nuevas características y facilita decisiones informadas sobre cuál versión adoptar [IBM](https://www.ibm.com).
 
-Despliegue Oscuro (Dark Launching) En esta estrategia, las nuevas características se implementan en producción pero no son accesibles a los usuarios finales. Esto permite probar el comportamiento de la nueva versión en condiciones de carga real sin afectar la experiencia del usuario​
-SENTRIO
-.
+   **Ejemplo Práctico**: Una aplicación de streaming implementó A/B testing para probar dos versiones diferentes de su interfaz de usuario. Tras observar una mayor retención de usuarios en la versión B, se decidió desplegarla globalmente.
 
-Ejemplo Práctico: Un equipo de desarrollo activó una nueva funcionalidad de búsqueda avanzada en una aplicación web como un Dark Launch para monitorear el impacto en el rendimiento del servidor antes de permitir que los usuarios interactuaran con ella.
+---
+
+## Conclusiones
+La seguridad y la gestión de fallos son pilares fundamentales en el despliegue de software moderno. Integrar pruebas de seguridad en todo el ciclo de desarrollo, utilizar pipelines CI/CD seguros, y planificar estrategias de reversión como Blue-Green o Canary Releases, garantiza que las actualizaciones de software no comprometan la estabilidad ni la seguridad de los sistemas. En un entorno de producción cada vez más distribuido, estas estrategias no solo permiten manejar fallos eficientemente, sino que también refuerzan la confianza en las aplicaciones al reducir el tiempo de inactividad y mejorar la experiencia del usuario.
+
+---
+
+## Referencias Bibliográficas
+1. IBM. (2023). "¿Qué es la seguridad de las aplicaciones?". [IBM.com](https://www.ibm.com).
+2. NinjaOne. (2024). "Guía del proceso de despliegue de software". [NinjaOne](https://www.ninjaone.com).
+3. InvGate. (2024). "¿Qué es el despliegue de software?". [InvGate.com](https://www.invgate.com).
+4. Atlassian. (2024). "Cómo crear un manual de estrategias de respuesta ante incidentes". [Atlassian.com](https://www.atlassian.com).
+5. Sentrio.io. (2023). "Estrategias de despliegue: concepto y tipos". [Sentrio.io](https://www.sentrio.io).
+
