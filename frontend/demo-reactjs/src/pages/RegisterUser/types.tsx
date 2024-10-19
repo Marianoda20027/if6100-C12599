@@ -1,7 +1,7 @@
 export interface RegisterUserForm  {
-    name: String,
+    user: String,
     email: String, 
     password: String
-    
+    passwordConfirmation: String
     }
     
