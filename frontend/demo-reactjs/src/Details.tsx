@@ -3,7 +3,7 @@ import React from "react";
 
 interface DetailsProps {
     names: string[];
-    title: string;
+    title: number;
 };
 
 
