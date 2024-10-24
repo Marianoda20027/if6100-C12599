@@ -1,4 +1,4 @@
-# Guias de Despliegue 
+# Guias de Despliegue
 
 ## Introducción
 
@@ -17,6 +17,7 @@ En conjunto, estas prácticas y herramientas forman la base de una entrega de so
 ---
 
 # Desarrollo
+
 ## Estrategias de Implementación de Software
 
 ### Despliegue Continuo (Continuous Deployment)
@@ -251,6 +252,13 @@ A continuación te presento un documento técnico específico para las guías de
 
 # Conclusión
 
+La implementación de un despliegue de software exitoso depende de la combinación de estrategias flexibles, automatización avanzada y buenas prácticas de seguridad. Las diversas estrategias de despliegue, como el despliegue continuo, gradual, y Blue-Green, ofrecen métodos seguros y eficientes para entregar nuevas funcionalidades, minimizando los riesgos y al mismo tiempo dandole al usuario una experiencia sin interrupciones.
+Las herramientas de automatización CI/CD, como Jenkins, GitLab CI/CD y CircleCI, son esenciales para acelerar el proceso de desarrollo, reduciendo los errores que los desarrolladores pueden cometer y asegurando que cada cambio en el código se implemente de manera confiable. Junto con estas herramientas, la integración de medidas de seguridad en todas las fases del desarrollo es esencial para la protección de los datos que se consideren como sensibles para mantener la integridad del sistema.
+
+La monitorización y registro en tiempo real, a través de soluciones como Prometheus, Grafana y ELK Stack, permiten a los equipos el detectar problemas, manteniendo un alto rendimiento y mejorando continuamente las aplicaciones. Además, las estrategias de reversión, como el Circuit Breaker y el despliegue Blue-Green, aseguran que, ante cualquier fallo, las empresas puedan reaccionar rápidamente sin afectar la disponibilidad del servicio.
+
+En conjunto, estas prácticas garantizan el poder entregar el software de manera eficiente y segura, esto mejorando la capacidad de las organizaciones para adaptarse a las demandas del mercado y mantener la continuidad operativa ante cualquier eventualidad.
+
 # Documento Técnico: Estándares y Recomendaciones de Despliegue para el Sistema de Control de Citas Médicas
 
 ## 1. Introducción
@@ -262,12 +270,11 @@ Este documento establece los estándares y recomendaciones a seguir para despleg
 ## 2. Estrategias de Despliegue
 
 ### 2.1 Despliegue Continuo (Continuous Deployment)
+
 - **Descripción**: Cada cambio en el código que pasa las pruebas automatizadas debe desplegarse automáticamente en producción.
-  
 - **Estándares**:
   - Utilizar un pipeline de CI/CD para ejecutar las pruebas automatizadas y despliegue.
   - Garantizar que cada commit que pase las pruebas unitarias e integradas sea candidato para producción.
-  
 - **Recomendaciones**:
   - Integrar herramientas como **Jenkins**, **GitLab CI/CD** o **CircleCI** para automatizar el proceso de integración y despliegue.
   - Implementar pruebas unitarias y de integración para asegurar que cada versión cumpla con los requisitos antes del despliegue.
@@ -276,9 +283,11 @@ Este documento establece los estándares y recomendaciones a seguir para despleg
 ---
 
 ### 2.2 Despliegue Gradual (Gradual Deployment)
+
 - **Descripción**: Introducir nuevas versiones del software a un subconjunto limitado de usuarios antes de desplegarlo a toda la base de usuarios.
 
 - **Estándares**:
+
   - Desplegar la versión nueva solo a un pequeño porcentaje (10-20%) de los usuarios inicialmente.
   - Aumentar gradualmente la base de usuarios si no se detectan errores.
 
@@ -290,9 +299,11 @@ Este documento establece los estándares y recomendaciones a seguir para despleg
 ---
 
 ### 2.3 Despliegue Azul-Verde (Blue-Green Deployment)
+
 - **Descripción**: Esta técnica permite que una nueva versión de la aplicación se despliegue en un entorno paralelo (verde), mientras el entorno anterior (azul) sigue funcionando. Si la nueva versión falla, se puede revertir fácilmente al entorno azul.
 
 - **Estándares**:
+
   - Mantener ambos entornos (azul y verde) sincronizados para evitar problemas de inconsistencia.
   - Antes de redirigir el tráfico al entorno verde, realizar pruebas exhaustivas en ese entorno para verificar que la nueva versión funcione correctamente.
 
@@ -304,9 +315,11 @@ Este documento establece los estándares y recomendaciones a seguir para despleg
 ---
 
 ### 2.4 Rolling Deployments (Despliegue Progresivo)
+
 - **Descripción**: Consiste en actualizar la aplicación gradualmente en diferentes instancias del servidor sin detener el servicio, permitiendo que algunas instancias ejecuten la versión anterior mientras otras implementan la nueva versión.
 
 - **Estándares**:
+
   - Desplegar la nueva versión en un porcentaje limitado de servidores (por ejemplo, 20% de las instancias) antes de expandirla a todos.
   - Garantizar que haya un mecanismo de rollback para revertir a la versión anterior si se detectan errores durante el despliegue.
 
@@ -319,9 +332,10 @@ Este documento establece los estándares y recomendaciones a seguir para despleg
 ## 3. Herramientas de CI/CD
 
 ### 3.1 Jenkins
+
 - **Descripción**: Jenkins es una herramienta de CI/CD utilizada para automatizar el ciclo de vida de integración continua y despliegue continuo.
-  
 - **Estándares**:
+
   - Configurar pipelines para ejecutar pruebas automáticas en cada commit.
   - Establecer un pipeline para realizar el despliegue automático a producción si todas las pruebas son exitosas.
 
@@ -330,9 +344,11 @@ Este documento establece los estándares y recomendaciones a seguir para despleg
   - Implementar una estrategia de notificación en Jenkins para alertar al equipo cuando un despliegue falle.
 
 ### 3.2 GitLab CI/CD
+
 - **Descripción**: GitLab CI/CD permite integrar el ciclo de vida del software dentro de GitLab, desde la integración hasta el despliegue continuo.
 
 - **Estándares**:
+
   - Configurar runners que automaticen los procesos de pruebas, construcción y despliegue.
   - Realizar revisiones de seguridad antes de desplegar cualquier código en producción.
 
@@ -345,9 +361,11 @@ Este documento establece los estándares y recomendaciones a seguir para despleg
 ## 4. Monitoreo y Gestión de Fallos
 
 ### 4.1 Prometheus y Grafana
+
 - **Descripción**: Prometheus es una herramienta de monitoreo y recolección de métricas, mientras que Grafana se utiliza para visualizar dichas métricas en paneles personalizables.
 
 - **Estándares**:
+
   - Monitorear la utilización de recursos del sistema, como CPU, memoria, latencia, y el número de solicitudes.
   - Configurar alertas automáticas para notificar al equipo si las métricas superan umbrales críticos.
 
@@ -356,12 +374,12 @@ Este documento establece los estándares y recomendaciones a seguir para despleg
   - Integrar alertas de **Prometheus** para situaciones como sobrecarga del servidor o tiempo de respuesta excesivo.
 
 ### 4.2 ELK Stack (Elasticsearch, Logstash, Kibana)
+
 - **Descripción**: ELK Stack permite gestionar y analizar los logs del sistema de forma centralizada.
 
 - **Estándares**:
   - Todos los logs deben ser recolectados y almacenados en **Elasticsearch**.
   - Configurar **Logstash** para procesar y transformar los logs de los servicios del sistema.
-  
 - **Recomendaciones**:
   - Crear visualizaciones en **Kibana** para identificar errores y anomalías.
   - Configurar filtros en Logstash para separar logs de acceso, errores y seguridad, y gestionar mejor la información.
@@ -371,31 +389,35 @@ Este documento establece los estándares y recomendaciones a seguir para despleg
 ## 5. Seguridad en el Despliegue
 
 ### 5.1 Shift Left Security
+
 - **Descripción**: Integrar la seguridad desde las primeras fases del desarrollo para identificar y corregir vulnerabilidades antes de que el código llegue a producción.
 
 - **Estándares**:
   - Utilizar herramientas de análisis de seguridad estáticas como **Snyk** en cada etapa del pipeline CI/CD.
-  
 - **Recomendaciones**:
   - Automatizar el escaneo de vulnerabilidades en las dependencias de la aplicación.
   - Configurar autenticación multifactor para todos los accesos a entornos de despliegue.
 
 ### 5.2 Cifrado de Datos
+
 - **Estándares**:
+
   - Implementar HTTPS para todas las comunicaciones de la aplicación.
   - Asegurarse de que todas las contraseñas y datos sensibles se cifren utilizando algoritmos robustos como **AES-256**.
 
 - **Recomendaciones**:
   - Utilizar **HashiCorp Vault** o una solución equivalente para gestionar de forma segura las credenciales y claves de acceso del sistema.
-  
+
 ---
 
 ## 6. Estrategias de Reversión
 
 ### 6.1 Despliegue Rojo-Negro (Red-Black Deployment)
+
 - **Descripción**: Similar al Blue-Green Deployment, esta estrategia permite tener un entorno "rojo" estable mientras se despliega la nueva versión en el entorno "negro". Si la versión negra falla, el tráfico puede revertirse rápidamente al entorno rojo.
 
 - **Estándares**:
+
   - Configurar ambos entornos (rojo y negro) para que tengan configuraciones idénticas.
   - Establecer un plan de rollback automático si el entorno negro presenta errores.
 
@@ -404,11 +426,11 @@ Este documento establece los estándares y recomendaciones a seguir para despleg
   - Implementar notificaciones automáticas si se realiza un rollback a la versión anterior.
 
 ### 6.2 Automated Rollback (Reversión Automática)
+
 - **Descripción**: Si el sistema detecta errores críticos después de un despliegue, se debe revertir automáticamente a la versión anterior.
 
 - **Estándares**:
   - Configurar un pipeline que permita el rollback a la versión anterior en caso de fallos detectados.
-  
 - **Recomendaciones**:
   - Monitorear métricas clave como errores HTTP 500 o tiempo de respuesta elevado para activar un rollback automático.
 
@@ -416,13 +438,13 @@ Este documento establece los estándares y recomendaciones a seguir para despleg
 
 # Referencias Bibliográficas
 
-Shahin, M., Babar, M. A., & Zhu, L. (2017). Continuous integration, delivery and deployment: A systematic review on approaches, tools, challenges, and practices. IEEE Access, 5, 3909-3943. doi:10.1109/ACCESS.2017.2685629. 
+Shahin, M., Babar, M. A., & Zhu, L. (2017). Continuous integration, delivery and deployment: A systematic review on approaches, tools, challenges, and practices. IEEE Access, 5, 3909-3943. doi:10.1109/ACCESS.2017.2685629.
 Humble, J., & Farley, D. (2010). Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation. Addison-Wesley Professional.
-Leppänen, V. (2015). Implementing Blue-Green Deployment Method for Multiple Data Centers. International Conference on Cloud Computing and Services Science. SCITEPRESS. 
-Bass, L., Weber, I., & Zhu, L. (2015). DevOps: A Software Architect's Perspective. Addison-Wesley. Kief, A., & Rack, C. (2021). Jenkins 2: Up and Running: Evolve Your Deployment Pipeline for Next-Generation Automation. O'Reilly Media. 
-Schermann, M., Cito, J., Leitner, P., & Gall, H. C. (2016). Towards quality gates in continuous delivery and deployment. In Proceedings of the 2nd International Workshop on Rapid Continuous Software Engineering (pp. 34-40). doi:10.1145/2897695.2897706. 
-Gruhn, V., & Schäfer, C. (2015). The continuous delivery reference. Springer International Publishing. doi:10.1007/978-3-319-19294-4. Rouse, M. (2019). Canary Release. TechTarget. Disponible en: https://searchitoperations.techtarget.com/definition/canary-release. 
-Owens, B. (2021). Security Considerations in Continuous Delivery Pipelines. SANS Institute. Disponible en: https://www.sans.org/reading-room/whitepapers/cloud/security-considerations-continuous-delivery-pipelines-38735. 
+Leppänen, V. (2015). Implementing Blue-Green Deployment Method for Multiple Data Centers. International Conference on Cloud Computing and Services Science. SCITEPRESS.
+Bass, L., Weber, I., & Zhu, L. (2015). DevOps: A Software Architect's Perspective. Addison-Wesley. Kief, A., & Rack, C. (2021). Jenkins 2: Up and Running: Evolve Your Deployment Pipeline for Next-Generation Automation. O'Reilly Media.
+Schermann, M., Cito, J., Leitner, P., & Gall, H. C. (2016). Towards quality gates in continuous delivery and deployment. In Proceedings of the 2nd International Workshop on Rapid Continuous Software Engineering (pp. 34-40). doi:10.1145/2897695.2897706.
+Gruhn, V., & Schäfer, C. (2015). The continuous delivery reference. Springer International Publishing. doi:10.1007/978-3-319-19294-4. Rouse, M. (2019). Canary Release. TechTarget. Disponible en: https://searchitoperations.techtarget.com/definition/canary-release.
+Owens, B. (2021). Security Considerations in Continuous Delivery Pipelines. SANS Institute. Disponible en: https://www.sans.org/reading-room/whitepapers/cloud/security-considerations-continuous-delivery-pipelines-38735.
 Turnbull, J. (2014). The Logstash Book: Log Management Made Easy. OpenStack, LLC.
 Fowler, M., & Humble, J. (2010). Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation. Addison-Wesley Professional.
 
@@ -437,9 +459,9 @@ Castañeda García, P. A. (2019). Prácticas DevOps de entrega continua de softw
 Kiessling, W. (2019). Cloud Native DevOps with Kubernetes: Building, Deploying, and Scaling Modern Applications in the Cloud. O'Reilly Media.
 
 Melic, V. F. Despliegue, operación y mantenimiento de aplicaciones a escala global.
-Singh, V., Singh, A., Aggarwal, A., Aggarwal, S., & Chaudhary, H. (2023). Improving Business Deliveries for Micro-services-based Systems using CI/CD and Jenkins. Journal of Mines, Metals & Fuels, 71(4). 
+Singh, V., Singh, A., Aggarwal, A., Aggarwal, S., & Chaudhary, H. (2023). Improving Business Deliveries for Micro-services-based Systems using CI/CD and Jenkins. Journal of Mines, Metals & Fuels, 71(4).
 
-Cowell, C., Lotz, N., & Timberlake, C. (2023). Automating DevOps with GitLab CI/CD Pipelines: Build efficient CI/CD pipelines to verify, secure, and deploy your code using real-life examples. Packt Publishing Ltd. 
+Cowell, C., Lotz, N., & Timberlake, C. (2023). Automating DevOps with GitLab CI/CD Pipelines: Build efficient CI/CD pipelines to verify, secure, and deploy your code using real-life examples. Packt Publishing Ltd.
 
 Gallaba, K., Lamothe, M., & McIntosh, S. (2022, May). Lessons from eight years of operational data from a continuous integration service: an exploratory case study of circleci. In Proceedings of the 44th international conference on software engineering (pp. 1330-1342).
 
@@ -467,4 +489,3 @@ Padrón Hernández, J. J. (2021). DevSecOps: integración de la seguridad en ent
 Reyes, J. G., & Martínez, C. R. (2023). IDEA: Algoritmo Criptográfico Simétrico para la Protección Segura de Datos Sensibles. Revista Vínculos: Ciencia, tecnología y sociedad, 20(2), 6.
 Peña Umaña, S. A., & Castañeda González, J. S. Gestión de llaves criptográficas orientado a un respaldo seguro y su recuperación en redes distribuidas.
 Planta Ulloa, J. P. (2024). Análisis de servicios de virtualización de servidores en la nube (Bachelor's thesis, Babahoyo: UTB-FAFI. 2024).
-
